@@ -1,4 +1,4 @@
----------------------------- MODULE HashingFunc ----------------------------
+ ---------------------------- MODULE HashingFunc ----------------------------
 CONSTANTS Key, Value
 VARIABLES mapping
 
@@ -20,12 +20,9 @@ Hash(input) ==
             /\ r
         
 Consistent ==
-    \/ CHOOSE <<x, y>>:
-        /\ x /= y
-        /\ Hash(x) /= Hash(y)
-    \/ CHOOSE <<x, y>>:
-        /\ x = y
-        /\ Hash(x) = Hash(y)
+    \/ \A x, y \in Key:
+        /\ x /= y => Hash(x) /= Hash(y)
+        /\ x = y => Hash(x) = Hash(y)
         
 
 Next == CHOOSE x \in Key:
@@ -40,5 +37,5 @@ THEOREM Spec => [][TypeInvariant /\ Consistent]_mapping
 
 =============================================================================
 \* Modification History
-\* Last modified Fri May 28 16:50:57 CST 2021 by jiang
+\* Last modified Sat May 29 00:26:05 CST 2021 by jiang
 \* Created Fri May 28 15:28:26 CST 2021 by jiang
